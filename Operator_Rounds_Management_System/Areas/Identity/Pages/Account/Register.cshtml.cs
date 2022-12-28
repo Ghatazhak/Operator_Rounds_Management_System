@@ -76,7 +76,7 @@ namespace Operator_Rounds_Management_System.Areas.Identity.Pages.Account
             public string LastName { get; set; }
 
             [Required]
-            public int EmployeeID { get; set; }
+            public int EmployeeId { get; set; }
 
 
 
@@ -171,7 +171,7 @@ namespace Operator_Rounds_Management_System.Areas.Identity.Pages.Account
                 AppUser appUser = Activator.CreateInstance<AppUser>();
                 appUser.FirstName = Input.FirstName;
                 appUser.LastName = Input.LastName;
-                appUser.EmployeeId = Input.EmployeeID;
+                appUser.EmployeeId = Input.EmployeeId;
                 return appUser;
             }
             catch

@@ -13,6 +13,11 @@ namespace Operator_Rounds_Management_System.Models
         public string? Name { get; set; }
 
 
-        public virtual ICollection<AppUser>? QualifiedOperators { get; set; }
+        // Virtual
+
+
+        public virtual ICollection<Round> Rounds { get; set; } = new HashSet<Round>();
+
+        public virtual ICollection<AppUser>? QualifiedOperators { get; set; } = new HashSet<AppUser>();
     }
 }

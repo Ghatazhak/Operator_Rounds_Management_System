@@ -27,6 +27,7 @@ namespace Operator_Rounds_Management_System.Models
         public string FullName => $"{FirstName} {LastName}";
 
 
-        public virtual ICollection<Skill>? Skill { get; set; }
+        // Virtuals
+        public virtual ICollection<Skill>? Skill { get; set; } = new HashSet<Skill>();
     }
 }
