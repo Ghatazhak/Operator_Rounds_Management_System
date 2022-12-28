@@ -20,10 +20,11 @@ namespace Operator_Rounds_Management_System.Models
         [StringLength(50, ErrorMessage = "Your {0} cannot be longer than {1} or shorter than {2} characters."), MinLength(2)]
         public string? LastName { get; set; }
 
+        [Required]
+        public int? EmployeeID { get; set; }
+
         [NotMapped]
         public string FullName => $"{FirstName} {LastName}";
-
-        public virtual ICollection<int>? EmployeeId { get; set; }
 
 
         public virtual ICollection<Skill>? Skill { get; set; }
