@@ -17,7 +17,7 @@ namespace Operator_Rounds_Management_System.Models
         [Required]
         [DataType(DataType.Date)]
         [Display(Name = "Time Completed")]
-        public DateTime Completed { get; set; }
+        public DateTime? Completed { get; set; }
 
         [Required]
         [Display(Name = "Equipment Condition")]

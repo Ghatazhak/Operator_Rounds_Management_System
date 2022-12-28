@@ -5,6 +5,9 @@ using Operator_Rounds_Management_System.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 
+// Had to add this so postgresql would accept DateTime.
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
 var connectionString = builder.Configuration.GetSection("pgSettings")["pgConnection"];
 
 /// Here for the record.
