@@ -19,19 +19,18 @@ namespace Operator_Rounds_Management_System.Models
         [Display(Name = "Shift Notes")]
         public string? Notes { get; set; }
 
-        public int SkillId { get; set; }
+        //public int SkillId { get; set; }
 
-        public int OperatorId { get; set; }
+        //public int OperatorId { get; set; }
 
 
         // Virtual
 
-        [Required]
-        [Display(Name = "Operator")]
-        public virtual AppUser? Operators { get; set; }
 
+        public virtual AppUser Operator { get; set; } = null!;
 
         public virtual Skill Skill { get; set; } = null!;
+
 
         public virtual ICollection<Check> Checks { get; set; } = new HashSet<Check>();
     }

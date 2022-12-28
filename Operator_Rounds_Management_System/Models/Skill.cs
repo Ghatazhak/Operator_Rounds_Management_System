@@ -15,7 +15,6 @@ namespace Operator_Rounds_Management_System.Models
 
         // Virtual
 
-
         public virtual ICollection<Round> Rounds { get; set; } = new HashSet<Round>();
 
         public virtual ICollection<AppUser>? QualifiedOperators { get; set; } = new HashSet<AppUser>();

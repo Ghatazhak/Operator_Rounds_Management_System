@@ -31,6 +31,9 @@ namespace OperatorRoundsManagementSystem.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
+                    FirstName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    LastName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    EmployeeId = table.Column<int>(type: "integer", nullable: false),
                     UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
@@ -49,6 +52,37 @@ namespace OperatorRoundsManagementSystem.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Checks",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    Completed = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    InService = table.Column<bool>(type: "boolean", nullable: false),
+                    Notes = table.Column<string>(type: "text", nullable: true),
+                    WorkOrderNumber = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Checks", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Skills",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Skills", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -157,6 +191,87 @@ namespace OperatorRoundsManagementSystem.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "AppUserSkill",
+                columns: table => new
+                {
+                    QualifiedOperatorsId = table.Column<string>(type: "text", nullable: false),
+                    SkillsId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppUserSkill", x => new { x.QualifiedOperatorsId, x.SkillsId });
+                    table.ForeignKey(
+                        name: "FK_AppUserSkill_AspNetUsers_QualifiedOperatorsId",
+                        column: x => x.QualifiedOperatorsId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AppUserSkill_Skills_SkillsId",
+                        column: x => x.SkillsId,
+                        principalTable: "Skills",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Rounds",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    DateTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    Notes = table.Column<string>(type: "text", nullable: true),
+                    OperatorId = table.Column<string>(type: "text", nullable: true),
+                    SkillId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Rounds", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Rounds_AspNetUsers_OperatorId",
+                        column: x => x.OperatorId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Rounds_Skills_SkillId",
+                        column: x => x.SkillId,
+                        principalTable: "Skills",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CheckRound",
+                columns: table => new
+                {
+                    ChecksId = table.Column<int>(type: "integer", nullable: false),
+                    RoundsId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CheckRound", x => new { x.ChecksId, x.RoundsId });
+                    table.ForeignKey(
+                        name: "FK_CheckRound_Checks_ChecksId",
+                        column: x => x.ChecksId,
+                        principalTable: "Checks",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CheckRound_Rounds_RoundsId",
+                        column: x => x.RoundsId,
+                        principalTable: "Rounds",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AppUserSkill_SkillsId",
+                table: "AppUserSkill",
+                column: "SkillsId");
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -193,11 +308,29 @@ namespace OperatorRoundsManagementSystem.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CheckRound_RoundsId",
+                table: "CheckRound",
+                column: "RoundsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Rounds_OperatorId",
+                table: "Rounds",
+                column: "OperatorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Rounds_SkillId",
+                table: "Rounds",
+                column: "SkillId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "AppUserSkill");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -214,10 +347,22 @@ namespace OperatorRoundsManagementSystem.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "CheckRound");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "Checks");
+
+            migrationBuilder.DropTable(
+                name: "Rounds");
+
+            migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Skills");
         }
     }
 }

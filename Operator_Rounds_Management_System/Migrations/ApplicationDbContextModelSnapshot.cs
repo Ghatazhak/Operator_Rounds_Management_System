@@ -27,12 +27,12 @@ namespace OperatorRoundsManagementSystem.Migrations
                     b.Property<string>("QualifiedOperatorsId")
                         .HasColumnType("text");
 
-                    b.Property<int>("SkillId")
+                    b.Property<int>("SkillsId")
                         .HasColumnType("integer");
 
-                    b.HasKey("QualifiedOperatorsId", "SkillId");
+                    b.HasKey("QualifiedOperatorsId", "SkillsId");
 
-                    b.HasIndex("SkillId");
+                    b.HasIndex("SkillsId");
 
                     b.ToTable("AppUserSkill");
                 });
@@ -246,9 +246,6 @@ namespace OperatorRoundsManagementSystem.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text");
 
-                    b.Property<int>("SkillId")
-                        .HasColumnType("integer");
-
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("boolean");
 
@@ -320,11 +317,7 @@ namespace OperatorRoundsManagementSystem.Migrations
                     b.Property<string>("Notes")
                         .HasColumnType("text");
 
-                    b.Property<int>("OperatorId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("OperatorsId")
-                        .IsRequired()
+                    b.Property<string>("OperatorId")
                         .HasColumnType("text");
 
                     b.Property<int>("SkillId")
@@ -332,7 +325,7 @@ namespace OperatorRoundsManagementSystem.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OperatorsId");
+                    b.HasIndex("OperatorId");
 
                     b.HasIndex("SkillId");
 
@@ -367,7 +360,7 @@ namespace OperatorRoundsManagementSystem.Migrations
 
                     b.HasOne("Operator_Rounds_Management_System.Models.Skill", null)
                         .WithMany()
-                        .HasForeignKey("SkillId")
+                        .HasForeignKey("SkillsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -440,11 +433,9 @@ namespace OperatorRoundsManagementSystem.Migrations
 
             modelBuilder.Entity("Operator_Rounds_Management_System.Models.Round", b =>
                 {
-                    b.HasOne("Operator_Rounds_Management_System.Models.AppUser", "Operators")
+                    b.HasOne("Operator_Rounds_Management_System.Models.AppUser", "Operator")
                         .WithMany()
-                        .HasForeignKey("OperatorsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("OperatorId");
 
                     b.HasOne("Operator_Rounds_Management_System.Models.Skill", "Skill")
                         .WithMany("Rounds")
@@ -452,7 +443,7 @@ namespace OperatorRoundsManagementSystem.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Operators");
+                    b.Navigation("Operator");
 
                     b.Navigation("Skill");
                 });

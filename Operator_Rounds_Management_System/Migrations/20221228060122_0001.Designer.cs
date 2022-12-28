@@ -12,8 +12,8 @@ using Operator_Rounds_Management_System.Data;
 namespace OperatorRoundsManagementSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221228004711_AddAppUser")]
-    partial class AddAppUser
+    [Migration("20221228060122_0001")]
+    partial class _0001
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -30,14 +30,29 @@ namespace OperatorRoundsManagementSystem.Migrations
                     b.Property<string>("QualifiedOperatorsId")
                         .HasColumnType("text");
 
-                    b.Property<int>("SkillId")
+                    b.Property<int>("SkillsId")
                         .HasColumnType("integer");
 
-                    b.HasKey("QualifiedOperatorsId", "SkillId");
+                    b.HasKey("QualifiedOperatorsId", "SkillsId");
 
-                    b.HasIndex("SkillId");
+                    b.HasIndex("SkillsId");
 
                     b.ToTable("AppUserSkill");
+                });
+
+            modelBuilder.Entity("CheckRound", b =>
+                {
+                    b.Property<int>("ChecksId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("RoundsId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("ChecksId", "RoundsId");
+
+                    b.HasIndex("RoundsId");
+
+                    b.ToTable("CheckRound");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -195,8 +210,7 @@ namespace OperatorRoundsManagementSystem.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("boolean");
 
-                    b.Property<int?>("EmployeeID")
-                        .IsRequired()
+                    b.Property<int>("EmployeeId")
                         .HasColumnType("integer");
 
                     b.Property<string>("FirstName")
@@ -254,6 +268,73 @@ namespace OperatorRoundsManagementSystem.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("Operator_Rounds_Management_System.Models.Check", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("Completed")
+                        .IsRequired()
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("InService")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("text");
+
+                    b.Property<string>("WorkOrderNumber")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Checks");
+                });
+
+            modelBuilder.Entity("Operator_Rounds_Management_System.Models.Round", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("text");
+
+                    b.Property<string>("OperatorId")
+                        .HasColumnType("text");
+
+                    b.Property<int>("SkillId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OperatorId");
+
+                    b.HasIndex("SkillId");
+
+                    b.ToTable("Rounds");
+                });
+
             modelBuilder.Entity("Operator_Rounds_Management_System.Models.Skill", b =>
                 {
                     b.Property<int>("Id")
@@ -269,7 +350,7 @@ namespace OperatorRoundsManagementSystem.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Skill");
+                    b.ToTable("Skills");
                 });
 
             modelBuilder.Entity("AppUserSkill", b =>
@@ -282,7 +363,22 @@ namespace OperatorRoundsManagementSystem.Migrations
 
                     b.HasOne("Operator_Rounds_Management_System.Models.Skill", null)
                         .WithMany()
-                        .HasForeignKey("SkillId")
+                        .HasForeignKey("SkillsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("CheckRound", b =>
+                {
+                    b.HasOne("Operator_Rounds_Management_System.Models.Check", null)
+                        .WithMany()
+                        .HasForeignKey("ChecksId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Operator_Rounds_Management_System.Models.Round", null)
+                        .WithMany()
+                        .HasForeignKey("RoundsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -336,6 +432,28 @@ namespace OperatorRoundsManagementSystem.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Operator_Rounds_Management_System.Models.Round", b =>
+                {
+                    b.HasOne("Operator_Rounds_Management_System.Models.AppUser", "Operator")
+                        .WithMany()
+                        .HasForeignKey("OperatorId");
+
+                    b.HasOne("Operator_Rounds_Management_System.Models.Skill", "Skill")
+                        .WithMany("Rounds")
+                        .HasForeignKey("SkillId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Operator");
+
+                    b.Navigation("Skill");
+                });
+
+            modelBuilder.Entity("Operator_Rounds_Management_System.Models.Skill", b =>
+                {
+                    b.Navigation("Rounds");
                 });
 #pragma warning restore 612, 618
         }
