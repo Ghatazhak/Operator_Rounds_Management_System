@@ -3,7 +3,7 @@
 @inject UserManager<AppUser> UserManager
 
 @{
-    AppUser appUser = await UserManager.GetUserAsync(User);
+    AppUser? appUser = await UserManager.GetUserAsync(User);
 }
 
 <ul class="navbar-nav">
