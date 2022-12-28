@@ -21,13 +21,14 @@ namespace Operator_Rounds_Management_System.Models
         public string? LastName { get; set; }
 
         [Required]
-        public int? EmployeeId { get; set; }
+        [Display(Name = "Employee ID")]
+        public int EmployeeId { get; set; }
 
         [NotMapped]
         public string FullName => $"{FirstName} {LastName}";
 
 
-        // Virtuals
+        // Virtual
         public virtual ICollection<Skill>? Skill { get; set; } = new HashSet<Skill>();
     }
 }

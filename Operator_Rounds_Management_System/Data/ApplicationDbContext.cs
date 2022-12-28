@@ -10,5 +10,10 @@ namespace Operator_Rounds_Management_System.Data
             : base(options)
         {
         }
+
+        public virtual DbSet<Round> Rounds { get; set; } = default!;
+        public virtual DbSet<Skill> Skills { get; set; } = default!;
+        public virtual DbSet<Check> Checks { get; set; } = default!;
+
     }
 }
