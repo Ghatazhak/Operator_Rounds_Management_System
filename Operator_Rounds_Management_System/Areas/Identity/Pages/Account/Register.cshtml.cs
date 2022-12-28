@@ -2,23 +2,16 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Logging;
 using Operator_Rounds_Management_System.Models;
+using System.ComponentModel.DataAnnotations;
+using System.Text;
+using System.Text.Encodings.Web;
 
 namespace Operator_Rounds_Management_System.Areas.Identity.Pages.Account
 {
@@ -71,6 +64,22 @@ namespace Operator_Rounds_Management_System.Areas.Identity.Pages.Account
         /// </summary>
         public class InputModel
         {
+
+            [Required]
+            [Display(Name = "First Name")]
+            [StringLength(50, ErrorMessage = "Your {0} cannot be longer than {1} or shorter than {2} characters."), MinLength(2)]
+            public string FirstName { get; set; }
+
+            [Required]
+            [Display(Name = "Last Name")]
+            [StringLength(50, ErrorMessage = "Your {0} cannot be longer than {1} or shorter than {2} characters."), MinLength(2)]
+            public string LastName { get; set; }
+
+            [Required]
+            public int EmployeeID { get; set; }
+
+
+
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
@@ -159,7 +168,11 @@ namespace Operator_Rounds_Management_System.Areas.Identity.Pages.Account
         {
             try
             {
-                return Activator.CreateInstance<AppUser>();
+                AppUser appUser = Activator.CreateInstance<AppUser>();
+                appUser.FirstName = Input.FirstName;
+                appUser.LastName = Input.LastName;
+                appUser.EmployeeID = Input.EmployeeID;
+                return appUser;
             }
             catch
             {
