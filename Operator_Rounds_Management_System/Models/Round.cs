@@ -19,9 +19,7 @@ namespace Operator_Rounds_Management_System.Models
         [Display(Name = "Shift Notes")]
         public string? Notes { get; set; }
 
-        //public int SkillId { get; set; }
 
-        //public int OperatorId { get; set; }
 
 
         // Virtual
