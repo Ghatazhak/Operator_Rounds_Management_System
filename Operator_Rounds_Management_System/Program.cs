@@ -4,6 +4,7 @@ using Operator_Rounds_Management_System.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 var connectionString = builder.Configuration.GetSection("pgSettings")["pgConnection"];
 
 /// Here for the record.
