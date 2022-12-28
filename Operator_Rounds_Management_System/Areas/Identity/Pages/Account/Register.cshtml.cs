@@ -171,7 +171,7 @@ namespace Operator_Rounds_Management_System.Areas.Identity.Pages.Account
                 AppUser appUser = Activator.CreateInstance<AppUser>();
                 appUser.FirstName = Input.FirstName;
                 appUser.LastName = Input.LastName;
-                appUser.EmployeeID = Input.EmployeeID;
+                appUser.EmployeeId = Input.EmployeeID;
                 return appUser;
             }
             catch

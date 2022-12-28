@@ -21,7 +21,7 @@ namespace Operator_Rounds_Management_System.Models
         public string? LastName { get; set; }
 
         [Required]
-        public int? EmployeeID { get; set; }
+        public int? EmployeeId { get; set; }
 
         [NotMapped]
         public string FullName => $"{FirstName} {LastName}";
