@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<AppUser> SignInManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -36,22 +39,32 @@
                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
                     <li class="nav-item">
                             <a class="nav-link active" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                    </li>
-                    <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Checks" asp-action="Index">Checks</a>
-                    </li>
-                    <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Rounds" asp-action="Index">Rounds</a>
-                    </li>
-                    <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Skills" asp-action="Index">Skills</a>
-                    </li>
+                        </li>
+                        @if (User.IsInRole("Administrator") || User.IsInRole("Leader"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Checks" asp-action="Index">Checks</a>
+                            </li>
+                        }
+                        @if (User.IsInRole("Operator") || User.IsInRole("Administrator") || User.IsInRole("Leader"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Rounds" asp-action="Index">Rounds</a>
+                            </li>
+                        }
+                        @if (User.IsInRole("Administrator") || User.IsInRole("Leader"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Skills" asp-action="Index">Skills</a>
+                            </li>
+                        }
+                    
                 </ul>
                     <partial name="_LoginPartial" />
             </div>
         </div>
         </nav>
-
+        </header>
 
         <main class="content" id="mainHero">
             <section class="container h-100">
@@ -74,6 +87,7 @@
                             <a target="_blank" href="https://github.com/Ghatazhak" class="socialicons"><i class="bi bi-github p-2"></i></a>
                 </div>
             </div>
+        </div>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
