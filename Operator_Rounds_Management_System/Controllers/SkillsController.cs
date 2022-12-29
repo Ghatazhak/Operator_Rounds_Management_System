@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -20,14 +22,16 @@ namespace Operator_Rounds_Management_System.Controllers
         }
 
         // GET: Skills
+        [Authorize(Roles = "Administrator, Leader")]
         public async Task<IActionResult> Index()
         {
-              return _context.Skills != null ? 
-                          View(await _context.Skills.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Skills'  is null.");
+            return _context.Skills != null ?
+                        View(await _context.Skills.ToListAsync()) :
+                        Problem("Entity set 'ApplicationDbContext.Skills'  is null.");
         }
 
         // GET: Skills/Details/5
+        [Authorize(Roles = "Administrator, Leader")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Skills == null)
@@ -46,6 +50,7 @@ namespace Operator_Rounds_Management_System.Controllers
         }
 
         // GET: Skills/Create
+        [Authorize(Roles = "Administrator, Leader")]
         public IActionResult Create()
         {
             return View();
@@ -119,6 +124,7 @@ namespace Operator_Rounds_Management_System.Controllers
         }
 
         // GET: Skills/Delete/5
+        [Authorize(Roles = "Administrator, Leader")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Skills == null)
@@ -150,14 +156,14 @@ namespace Operator_Rounds_Management_System.Controllers
             {
                 _context.Skills.Remove(skill);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool SkillExists(int id)
         {
-          return (_context.Skills?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Skills?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

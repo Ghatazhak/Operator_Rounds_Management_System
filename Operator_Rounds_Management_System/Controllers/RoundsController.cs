@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -19,15 +21,16 @@ namespace Operator_Rounds_Management_System.Controllers
             _context = context;
         }
 
-        // GET: Rounds
+        [Authorize(Roles = "Administrator, Leader, Operator")]
         public async Task<IActionResult> Index()
         {
-              return _context.Rounds != null ? 
-                          View(await _context.Rounds.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Rounds'  is null.");
+            return _context.Rounds != null ?
+                        View(await _context.Rounds.ToListAsync()) :
+                        Problem("Entity set 'ApplicationDbContext.Rounds'  is null.");
         }
 
         // GET: Rounds/Details/5
+        [Authorize(Roles = "Administrator, Leader, Operator")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Rounds == null)
@@ -46,6 +49,7 @@ namespace Operator_Rounds_Management_System.Controllers
         }
 
         // GET: Rounds/Create
+        [Authorize(Roles = "Administrator, Leader")]
         public IActionResult Create()
         {
             return View();
@@ -68,6 +72,7 @@ namespace Operator_Rounds_Management_System.Controllers
         }
 
         // GET: Rounds/Edit/5
+        [Authorize(Roles = "Administrator, Leader")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Rounds == null)
@@ -119,6 +124,7 @@ namespace Operator_Rounds_Management_System.Controllers
         }
 
         // GET: Rounds/Delete/5
+        [Authorize(Roles = "Administrator, Leader")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Rounds == null)
@@ -150,14 +156,14 @@ namespace Operator_Rounds_Management_System.Controllers
             {
                 _context.Rounds.Remove(round);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool RoundExists(int id)
         {
-          return (_context.Rounds?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Rounds?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

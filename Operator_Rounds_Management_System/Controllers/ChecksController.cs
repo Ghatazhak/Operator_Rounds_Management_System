@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -20,14 +21,16 @@ namespace Operator_Rounds_Management_System.Controllers
         }
 
         // GET: Checks
+        [Authorize(Roles = "Administrator, Leader")]
         public async Task<IActionResult> Index()
         {
-              return _context.Checks != null ? 
-                          View(await _context.Checks.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Checks'  is null.");
+            return _context.Checks != null ?
+                        View(await _context.Checks.ToListAsync()) :
+                        Problem("Entity set 'ApplicationDbContext.Checks'  is null.");
         }
 
         // GET: Checks/Details/5
+        [Authorize(Roles = "Administrator, Leader")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Checks == null)
@@ -46,6 +49,7 @@ namespace Operator_Rounds_Management_System.Controllers
         }
 
         // GET: Checks/Create
+        [Authorize(Roles = "Administrator, Leader")]
         public IActionResult Create()
         {
             return View();
@@ -68,6 +72,7 @@ namespace Operator_Rounds_Management_System.Controllers
         }
 
         // GET: Checks/Edit/5
+        [Authorize(Roles = "Administrator, Leader")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Checks == null)
@@ -119,6 +124,7 @@ namespace Operator_Rounds_Management_System.Controllers
         }
 
         // GET: Checks/Delete/5
+        [Authorize(Roles = "Administrator, Leader")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Checks == null)
@@ -150,14 +156,14 @@ namespace Operator_Rounds_Management_System.Controllers
             {
                 _context.Checks.Remove(check);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool CheckExists(int id)
         {
-          return (_context.Checks?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Checks?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
