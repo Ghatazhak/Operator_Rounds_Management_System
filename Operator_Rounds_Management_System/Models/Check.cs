@@ -14,16 +14,14 @@ namespace Operator_Rounds_Management_System.Models
         public string? Description { get; set; }
 
 
-        [Required]
         [DataType(DataType.Date)]
         [Display(Name = "Time Completed")]
-        public DateTime? Completed { get; set; }
+        public DateTime Completed { get; set; }
 
-        [Required]
         [Display(Name = "Equipment Condition")]
         public bool InService { get; set; }
 
-
+        [StringLength(500, ErrorMessage = "Your {0} cannot be longer than {1} or shorter than {2} characters."), MinLength(0)]
         public string? Notes { get; set; }
 
         [Display(Name = "Work Order #")]
