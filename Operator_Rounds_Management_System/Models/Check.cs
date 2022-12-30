@@ -16,9 +16,11 @@ namespace Operator_Rounds_Management_System.Models
 
         [DataType(DataType.Date)]
         [Display(Name = "Time Completed")]
+        [Required]
         public DateTime Completed { get; set; }
 
         [Display(Name = "Equipment Condition")]
+        [Required]
         public bool InService { get; set; }
 
         [StringLength(500, ErrorMessage = "Your {0} cannot be longer than {1} or shorter than {2} characters."), MinLength(0)]

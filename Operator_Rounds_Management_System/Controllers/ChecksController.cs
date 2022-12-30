@@ -62,6 +62,10 @@ namespace Operator_Rounds_Management_System.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Description,Completed,InService,Notes,WorkOrderNumber")] Check check)
         {
+            ModelState.Remove("Completed");
+            ModelState.Remove("InService");
+
+
             if (ModelState.IsValid)
             {
                 _context.Add(check);
