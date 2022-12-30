@@ -29,8 +29,9 @@ namespace Operator_Rounds_Management_System.Models
         [Display(Name = "Work Order #")]
         public string? WorkOrderNumber { get; set; }
 
-        // Virtual
 
+        // Virtual
+        public virtual CheckCategory? CheckCategory { get; set; }
         public virtual ICollection<Round> Rounds { get; set; } = new HashSet<Round>();
 
 

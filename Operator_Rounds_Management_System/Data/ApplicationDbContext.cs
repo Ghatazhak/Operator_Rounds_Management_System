@@ -14,6 +14,7 @@ namespace Operator_Rounds_Management_System.Data
         public virtual DbSet<Round> Rounds { get; set; } = default!;
         public virtual DbSet<Skill> Skills { get; set; } = default!;
         public virtual DbSet<Check> Checks { get; set; } = default!;
+        public DbSet<Operator_Rounds_Management_System.Models.CheckCategory> CheckCategory { get; set; } = default!;
 
     }
 }
