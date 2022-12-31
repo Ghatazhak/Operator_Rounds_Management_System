@@ -12,8 +12,8 @@ using Operator_Rounds_Management_System.Data;
 namespace OperatorRoundsManagementSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221228060122_0001")]
-    partial class _0001
+    [Migration("20221231091900_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -276,9 +276,8 @@ namespace OperatorRoundsManagementSystem.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime?>("Completed")
-                        .IsRequired()
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<DateTime>("Completed")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -292,7 +291,8 @@ namespace OperatorRoundsManagementSystem.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Notes")
-                        .HasColumnType("text");
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
 
                     b.Property<string>("WorkOrderNumber")
                         .HasColumnType("text");
@@ -311,7 +311,7 @@ namespace OperatorRoundsManagementSystem.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("DateTime")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
                         .IsRequired()

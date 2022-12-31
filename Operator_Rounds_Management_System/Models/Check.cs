@@ -31,7 +31,6 @@ namespace Operator_Rounds_Management_System.Models
 
 
         // Virtual
-        public virtual CheckCategory? CheckCategory { get; set; }
         public virtual ICollection<Round> Rounds { get; set; } = new HashSet<Round>();
 
 

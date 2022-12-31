@@ -273,9 +273,6 @@ namespace OperatorRoundsManagementSystem.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("CheckCategoryId")
-                        .HasColumnType("integer");
-
                     b.Property<DateTime>("Completed")
                         .HasColumnType("timestamp with time zone");
 
@@ -299,25 +296,7 @@ namespace OperatorRoundsManagementSystem.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CheckCategoryId");
-
                     b.ToTable("Checks");
-                });
-
-            modelBuilder.Entity("Operator_Rounds_Management_System.Models.CheckCategory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CheckCategory");
                 });
 
             modelBuilder.Entity("Operator_Rounds_Management_System.Models.Round", b =>
@@ -452,15 +431,6 @@ namespace OperatorRoundsManagementSystem.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Operator_Rounds_Management_System.Models.Check", b =>
-                {
-                    b.HasOne("Operator_Rounds_Management_System.Models.CheckCategory", "CheckCategory")
-                        .WithMany("Checks")
-                        .HasForeignKey("CheckCategoryId");
-
-                    b.Navigation("CheckCategory");
-                });
-
             modelBuilder.Entity("Operator_Rounds_Management_System.Models.Round", b =>
                 {
                     b.HasOne("Operator_Rounds_Management_System.Models.AppUser", "Operator")
@@ -476,11 +446,6 @@ namespace OperatorRoundsManagementSystem.Migrations
                     b.Navigation("Operator");
 
                     b.Navigation("Skill");
-                });
-
-            modelBuilder.Entity("Operator_Rounds_Management_System.Models.CheckCategory", b =>
-                {
-                    b.Navigation("Checks");
                 });
 
             modelBuilder.Entity("Operator_Rounds_Management_System.Models.Skill", b =>

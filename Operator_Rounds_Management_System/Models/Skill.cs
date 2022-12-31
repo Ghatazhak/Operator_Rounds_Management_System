@@ -7,11 +7,9 @@ namespace Operator_Rounds_Management_System.Models
         [Required]
         public int Id { get; set; }
 
-
         [Required]
         [StringLength(20, ErrorMessage = "Your {0} cannot be longer than {1} or shorter than {2} characters."), MinLength(2)]
         public string? Name { get; set; }
-
 
         // Virtual
 

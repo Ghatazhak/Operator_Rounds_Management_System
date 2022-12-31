@@ -23,8 +23,6 @@ namespace Operator_Rounds_Management_System.Models
 
 
         // Virtual
-
-
         public virtual AppUser Operator { get; set; } = null!;
 
         public virtual Skill Skill { get; set; } = null!;

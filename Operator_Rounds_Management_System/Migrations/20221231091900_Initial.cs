@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace OperatorRoundsManagementSystem.Migrations
 {
     /// <inheritdoc />
-    public partial class _0001 : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -62,9 +62,9 @@ namespace OperatorRoundsManagementSystem.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
-                    Completed = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    Completed = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     InService = table.Column<bool>(type: "boolean", nullable: false),
-                    Notes = table.Column<string>(type: "text", nullable: true),
+                    Notes = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
                     WorkOrderNumber = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
@@ -222,7 +222,7 @@ namespace OperatorRoundsManagementSystem.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    DateTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    DateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Notes = table.Column<string>(type: "text", nullable: true),
                     OperatorId = table.Column<string>(type: "text", nullable: true),
                     SkillId = table.Column<int>(type: "integer", nullable: false)
