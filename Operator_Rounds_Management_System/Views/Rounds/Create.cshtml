@@ -4,43 +4,35 @@
     ViewData["Title"] = "Create Round";
 }
 
-<h1>Create Round</h1>
-<div class="p-3 border border-2 shadow-lg bg-light">
-
+<h4>Create Round</h4>
+<div class="p-3 border border-2 shadow-lg bg-light w-50">
     <form asp-action="Create" asp-controller="Rounds">
         <div class="row g-3 p-2">
             <div class="col-12 col-lg-4 mt-2">
-                <label asp-for="Name" class="control-label"></label>
+                <label asp-for="Name" class="form-label"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-        </div>
-        
-
-        <div class="row g-3 p-2">
-            <div class="col-12 col-lg-4 mt-2">
-                <label asp-for="Description" class="control-label"></label>
+            <div class="col-12 col-lg-8 mt-2">
+                <label asp-for="Description" class="form-label"></label>
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
         </div>
         <div class="row g-3 p-2 mb-4">
-            <div class="col-12 col-lg-4 mt-2">
-                <label asp-for="Skill" class="control-label"></label>
+            <div class="col-12 mt-2">
+                <label asp-for="Skill" class="form-label"></label>
                 <select asp-for="Skill" asp-items="ViewBag.AllSkills" class="form-control"></select>
                 <span asp-validation-for="Skill" class="text-danger"></span>
             </div>
         </div>
-            <div class="row g-3 p-2">
-                <div class="col-12 col-lg-4 mt-2 d-flex justify-content-end">
-                    <button type="submit" class="btn btn-primary btn-lg rounded-pill">Save</button>
-                </div>
+        <div class="row g-3 p-2">
+            <div class="col-12 col-lg-4 mt-2 d-flex justify-content-start">
+                <input class="btn btn-success rounded-pill" type="button" value="Cancel" onclick="location.href='@Url.Action("Index","Checks")';" />
+                <button type="submit" class="btn btn-primary btn-lg rounded-pill">Save</button>
             </div>
+        </div>
     </form>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

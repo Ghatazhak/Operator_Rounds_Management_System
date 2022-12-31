@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index of Checks";
     //Layout = "/Views/Shared/_LayoutLander.cshtml";
 }
-
+<h4>All Checks</h4>
 <div class="row">
     <div class="col-12 text-start mb-2">
         <a asp-action="Create" asp-controller="Checks" class="btn btn-primary rounded-pill">Create New</a>
@@ -24,6 +24,7 @@
                                     <div class="col-md-8">
                                         <div class="card-body">
                                             <h5 class="card-title">@Html.DisplayFor(modelItem => check.Name)</h5>
+                                            <hr/>
                                             <div class="card-text">
                                             @Html.DisplayFor(modelItem => check.Description)
                                             </div>

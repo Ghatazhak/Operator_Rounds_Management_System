@@ -3,40 +3,33 @@
 @{
     ViewData["Title"] = "Create Check";
 
-    
+
 }
 
-<h1>CREATE CHECK</h1>
-<div class="p-3 border border-2 shadow-lg bg-light">
-
-    <form asp-action="Create" asp-controller="Checks" enctype="multipart/form-data">
+<h4>Create Check</h4>
+<div class="p-3 border border-2 shadow-lg bg-light w-50">
+    <form asp-action="Create" asp-controller="Checks">
         <div class="row g-3 p-2">
-            <div class="col-12">
-                <label asp-for="Name" class="control-label"></label>
+            <div class="col-12 col-md-4">
+                <label asp-for="Name" class="form-label"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-        
-    
-            <div class="col-12">
-                <label asp-for="Description" class="control-label"></label>
+            <div class="col-12 col-md-8">
+                <label asp-for="Description" class="form-label"></label>
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+        </div>
 
-                <div class="row g-3 p-2">
-                    <div class="col-12 d-flex justify-content-end">
-                        <button type="submit"  class="btn btn-primary btn-lg rounded-pill">Save</button>
-                    </div>
-                </div>
-
+        <div class="row g-3 p-2">
+            <div class="col-12 d-flex justify-content-start">
+                @*Slick way to have a cancel button in a form*@
+                <input class="btn btn-success rounded-pill" type="button" value="Cancel" onclick="location.href='@Url.Action("Index", "Checks")';" />
+                <button type="submit" class="btn btn-primary btn-lg rounded-pill">Save</button>
             </div>
         </div>
     </form>
-</div>
-
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
