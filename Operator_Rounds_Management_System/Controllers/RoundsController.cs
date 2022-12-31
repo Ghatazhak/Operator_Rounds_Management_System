@@ -100,6 +100,7 @@ namespace Operator_Rounds_Management_System.Controllers
             {
                 return NotFound();
             }
+            ViewData["AllSkills"] = new SelectList(Enum.GetValues(typeof(Enums.Skills)).Cast<Enums.Skills>().ToList());
             return View(round);
         }
 
@@ -108,8 +109,12 @@ namespace Operator_Rounds_Management_System.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,DateTime,Notes")] Round round)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Skill")] Round round)
         {
+            ModelState.Remove("DateTime");
+            ModelState.Remove("Notes");
+            ModelState.Remove("Operator");
+
             if (id != round.Id)
             {
                 return NotFound();
@@ -119,6 +124,7 @@ namespace Operator_Rounds_Management_System.Controllers
             {
                 try
                 {
+
                     _context.Update(round);
                     await _context.SaveChangesAsync();
                 }
