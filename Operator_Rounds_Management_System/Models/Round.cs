@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Operator_Rounds_Management_System.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace Operator_Rounds_Management_System.Models
 {
@@ -16,17 +17,19 @@ namespace Operator_Rounds_Management_System.Models
         public DateTime DateTime { get; set; }
 
 
+        [Display(Name = "Round Description")]
+        [Required]
+        public string? Description { get; set; }
+
         [Display(Name = "Shift Notes")]
         public string? Notes { get; set; }
 
 
+        public Skills Skill { get; set; }
 
 
         // Virtual
         public virtual AppUser Operator { get; set; } = null!;
-
-        public virtual Skill Skill { get; set; } = null!;
-
 
         public virtual ICollection<Check> Checks { get; set; } = new HashSet<Check>();
     }

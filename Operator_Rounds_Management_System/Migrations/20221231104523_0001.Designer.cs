@@ -12,8 +12,8 @@ using Operator_Rounds_Management_System.Data;
 namespace OperatorRoundsManagementSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221231091900_Initial")]
-    partial class Initial
+    [Migration("20221231104523_0001")]
+    partial class _0001
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,21 +24,6 @@ namespace OperatorRoundsManagementSystem.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("AppUserSkill", b =>
-                {
-                    b.Property<string>("QualifiedOperatorsId")
-                        .HasColumnType("text");
-
-                    b.Property<int>("SkillsId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("QualifiedOperatorsId", "SkillsId");
-
-                    b.HasIndex("SkillsId");
-
-                    b.ToTable("AppUserSkill");
-                });
 
             modelBuilder.Entity("CheckRound", b =>
                 {
@@ -249,6 +234,9 @@ namespace OperatorRoundsManagementSystem.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text");
 
+                    b.Property<int[]>("Skills")
+                        .HasColumnType("integer[]");
+
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("boolean");
 
@@ -313,6 +301,10 @@ namespace OperatorRoundsManagementSystem.Migrations
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -323,49 +315,14 @@ namespace OperatorRoundsManagementSystem.Migrations
                     b.Property<string>("OperatorId")
                         .HasColumnType("text");
 
-                    b.Property<int>("SkillId")
+                    b.Property<int>("Skill")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
                     b.HasIndex("OperatorId");
 
-                    b.HasIndex("SkillId");
-
                     b.ToTable("Rounds");
-                });
-
-            modelBuilder.Entity("Operator_Rounds_Management_System.Models.Skill", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Skills");
-                });
-
-            modelBuilder.Entity("AppUserSkill", b =>
-                {
-                    b.HasOne("Operator_Rounds_Management_System.Models.AppUser", null)
-                        .WithMany()
-                        .HasForeignKey("QualifiedOperatorsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Operator_Rounds_Management_System.Models.Skill", null)
-                        .WithMany()
-                        .HasForeignKey("SkillsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("CheckRound", b =>
@@ -440,20 +397,7 @@ namespace OperatorRoundsManagementSystem.Migrations
                         .WithMany()
                         .HasForeignKey("OperatorId");
 
-                    b.HasOne("Operator_Rounds_Management_System.Models.Skill", "Skill")
-                        .WithMany("Rounds")
-                        .HasForeignKey("SkillId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Operator");
-
-                    b.Navigation("Skill");
-                });
-
-            modelBuilder.Entity("Operator_Rounds_Management_System.Models.Skill", b =>
-                {
-                    b.Navigation("Rounds");
                 });
 #pragma warning restore 612, 618
         }

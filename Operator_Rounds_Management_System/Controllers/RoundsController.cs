@@ -12,6 +12,7 @@ using Operator_Rounds_Management_System.Models;
 
 namespace Operator_Rounds_Management_System.Controllers
 {
+    [Authorize]
     public class RoundsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -24,9 +25,14 @@ namespace Operator_Rounds_Management_System.Controllers
         [Authorize(Roles = "Administrator, Leader, Operator")]
         public async Task<IActionResult> Index()
         {
-            return _context.Rounds != null ?
-                        View(await _context.Rounds.ToListAsync()) :
-                        Problem("Entity set 'ApplicationDbContext.Rounds'  is null.");
+
+            if (_context.Rounds != null)
+            {
+                List<Round> allRounds = await _context.Rounds.ToListAsync();
+                return View(allRounds);
+            }
+
+            return View();
         }
 
         // GET: Rounds/Details/5
@@ -52,22 +58,31 @@ namespace Operator_Rounds_Management_System.Controllers
         [Authorize(Roles = "Administrator, Leader")]
         public IActionResult Create()
         {
+            //var allSkills = _context.Skills.ToList();
+            ViewData["AllSkills"] = new SelectList(Enum.GetValues(typeof(Enums.Skills)).Cast<Enums.Skills>().ToList());
             return View();
         }
 
-        // POST: Rounds/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,DateTime,Notes")] Round round)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description,Skill")] Round round)
         {
+            ModelState.Remove("DateTime");
+            ModelState.Remove("Notes");
+            ModelState.Remove("Operator");
+
+
+
             if (ModelState.IsValid)
             {
                 _context.Add(round);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
+
+            ViewData["AllSkills"] = new SelectList(Enum.GetValues(typeof(Enums.Skills)).Cast<Enums.Skills>().ToList());
             return View(round);
         }
 

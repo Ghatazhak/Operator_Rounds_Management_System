@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace OperatorRoundsManagementSystem.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class _0001 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -34,6 +34,7 @@ namespace OperatorRoundsManagementSystem.Migrations
                     FirstName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     LastName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     EmployeeId = table.Column<int>(type: "integer", nullable: false),
+                    Skills = table.Column<int[]>(type: "integer[]", nullable: true),
                     UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
@@ -70,19 +71,6 @@ namespace OperatorRoundsManagementSystem.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Checks", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Skills",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Skills", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -192,30 +180,6 @@ namespace OperatorRoundsManagementSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AppUserSkill",
-                columns: table => new
-                {
-                    QualifiedOperatorsId = table.Column<string>(type: "text", nullable: false),
-                    SkillsId = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AppUserSkill", x => new { x.QualifiedOperatorsId, x.SkillsId });
-                    table.ForeignKey(
-                        name: "FK_AppUserSkill_AspNetUsers_QualifiedOperatorsId",
-                        column: x => x.QualifiedOperatorsId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AppUserSkill_Skills_SkillsId",
-                        column: x => x.SkillsId,
-                        principalTable: "Skills",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Rounds",
                 columns: table => new
                 {
@@ -223,9 +187,10 @@ namespace OperatorRoundsManagementSystem.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
                     DateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
                     Notes = table.Column<string>(type: "text", nullable: true),
-                    OperatorId = table.Column<string>(type: "text", nullable: true),
-                    SkillId = table.Column<int>(type: "integer", nullable: false)
+                    Skill = table.Column<int>(type: "integer", nullable: false),
+                    OperatorId = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -235,12 +200,6 @@ namespace OperatorRoundsManagementSystem.Migrations
                         column: x => x.OperatorId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Rounds_Skills_SkillId",
-                        column: x => x.SkillId,
-                        principalTable: "Skills",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -266,11 +225,6 @@ namespace OperatorRoundsManagementSystem.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AppUserSkill_SkillsId",
-                table: "AppUserSkill",
-                column: "SkillsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -318,19 +272,11 @@ namespace OperatorRoundsManagementSystem.Migrations
                 name: "IX_Rounds_OperatorId",
                 table: "Rounds",
                 column: "OperatorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Rounds_SkillId",
-                table: "Rounds",
-                column: "SkillId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "AppUserSkill");
-
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -360,9 +306,6 @@ namespace OperatorRoundsManagementSystem.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "Skills");
         }
     }
 }

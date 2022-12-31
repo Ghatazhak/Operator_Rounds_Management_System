@@ -1,48 +1,40 @@
 ﻿@model IEnumerable<Operator_Rounds_Management_System.Models.Round>
 
 @{
-    ViewData["Title"] = "Index";
-    Layout = "/Views/Shared/_LayoutLander.cshtml";
+    ViewData["Title"] = "Index of Rounds";
+    //Layout = "/Views/Shared/_LayoutLander.cshtml";
 }
 
-<h1>Index</h1>
+<h1>Index of Rounds</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DateTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Notes)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Notes)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="col-12 text-start mb-2">
+    <a asp-action="Create" asp-controller="Rounds" class="btn btn-primary rounded-pill">Create New</a>
+</div>
+
+<div class="col-12">
+    <div class="row row-cols-1 g-3">
+        <div class="col">
+            <div class="card mb-3">
+                <div class="row g-0">
+                    @foreach (var item in Model)
+                    {
+                        <div class="p-3 border border-2 shadow-lg bg-light">
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">@item.Name</h5>
+                                    <div class="card-text">
+                                        @item.Description
+                                    </div>
+                                    <div class="fs-4">
+                                        <a asp-action="Edit" asp-route-id="@item.Id" class="editIcons"><i class="bi bi-pencil-fill"></i></a>
+                                        <a asp-action="Delete" asp-route-id="@item.Id" class="editIcons"><i class="bi bi-trash-fill text-danger"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

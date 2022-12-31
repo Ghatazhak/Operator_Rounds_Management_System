@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Operator_Rounds_Management_System.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -24,12 +25,16 @@ namespace Operator_Rounds_Management_System.Models
         [Display(Name = "Employee ID")]
         public int EmployeeId { get; set; }
 
+
+
+
         [NotMapped]
         public string FullName => $"{FirstName} {LastName}";
 
 
 
+
         // Virtual
-        public virtual ICollection<Skill>? Skills { get; set; } = new HashSet<Skill>();
+        public virtual List<Skills>? Skills { get; set; }
     }
 }
