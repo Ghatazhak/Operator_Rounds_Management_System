@@ -36,8 +36,9 @@ builder.Services.AddControllersWithViews();
 
 // Register my custom DataService class
 builder.Services.AddScoped<DataService>();
-builder.Services.AddScoped<IEmailSender, EmailService>();
 
+builder.Services.AddScoped<IEmailSender, EmailService>();
+builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
 
 var app = builder.Build();
 
