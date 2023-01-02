@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using Operator_Rounds_Management_System.Data;
@@ -35,6 +36,9 @@ builder.Services.AddControllersWithViews();
 
 // Register my custom DataService class
 builder.Services.AddScoped<DataService>();
+builder.Services.AddScoped<IEmailSender, EmailService>();
+
+
 var app = builder.Build();
 
 // Call my custom data service.
